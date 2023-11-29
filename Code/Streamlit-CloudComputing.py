@@ -16,8 +16,7 @@ le = LabelEncoder()
 odometer_value = st.number_input("Odometer Value", min_value=0)
 engine_type = st.selectbox("Engine Type", ['Gas', 'Diesel', 'Electric'])
 engine_fuel_type = st.selectbox("Engine Fuel Type", ['Diesel', 'Electric', 'Gas', 'Gasoline', 'Hybrid-Diesel', 'Hybrid-Petrol'])
-color = st.selectbox("Color", ['silver' 'blue' 'red' 'black' 'grey' 'other' 'brown' 'white' 'green'
-                               'violet' 'orange' 'yellow'])
+color = st.selectbox("Color", ['silver', 'blue', 'red', 'black', 'grey', 'brown', 'white', 'green', 'violet', 'orange', 'yellow', 'other'])
 transmission_type = st.selectbox("Transmission Type", ['Automatic', 'Manual'])
 body_type = st.selectbox("Body Type", ['Sedan', 'SUV', 'Truck'])
 drivetrain = st.selectbox("Drivetrain", ['AWD', 'FWD', 'RWD'])
@@ -42,8 +41,11 @@ engine_fuel_hybrid_petrol = 1 if engine_fuel_type == 'Hybrid-Petrol' else 0
 
 def predict_price(input_data):
     input_df = pd.DataFrame(input_data)
+    input_df['color'] = le.fit_transform(input_df['color'].values.reshape(-1, 1))
     input_df['color'] = dict(zip(le.classes_, le.transform(le.classes_))).values()
+    input_df['body_type'] = le.fit_transform(input_df['color'].values.reshape(-1, 1))
     input_df['body_type'] = dict(zip(le.classes_, le.transform(le.classes_))).values()
+    input_df['drivetrain'] = le.fit_transform(input_df['color'].values.reshape(-1, 1))
     input_df['drivetrain'] = dict(zip(le.classes_, le.transform(le.classes_))).values()
 
     input_array = np.array(input_df)
