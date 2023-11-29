@@ -5,6 +5,11 @@ from sklearn.preprocessing import LabelEncoder
 from sagemaker import image_uris, session
 from sagemaker.model import Model
 from sagemaker.pipeline import PipelineModel
+import boto3
+
+# Set the region
+region_name = 'us-east-1'
+boto3.setup_default_session(region_name=region_name)
 
 st.set_page_config(page_title="Team 3 Cloud Computing Project", page_icon=":tada:", layout="wide")
 
