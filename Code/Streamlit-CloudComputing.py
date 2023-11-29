@@ -63,11 +63,27 @@ def predict_price(input_data):
 
 
 if st.button("Predict Price"):
-    input_data = [manufacturer_name, model_name, color, odometer_value, production_year, transmission_automatic,
-                  transmission_mechanical, engine_fuel_diesel, engine_fuel_electric, engine_fuel_gas, engine_fuel_gasoline,
-                  engine_fuel_hybrid_diesel, engine_fuel_hybrid_petrol, engine_type_diesel, engine_type_electric,
-                  engine_fuel_gasoline, body_type, drivetrain]
-    
+    input_data = {}
+    input_data['manufacturer_name'] = manufacturer_name
+    input_data['model_name'] = model_name
+    input_data['color'] = color
+    input_data['odometer_value'] = odometer_value
+    input_data['production_year'] = production_year
+    input_data['transmission_automatic'] = transmission_automatic
+    input_data['transmission_mechanical'] = transmission_mechanical
+    input_data['engine_fuel_diesel'] = engine_fuel_diesel
+    input_data['engine_fuel_electric'] = engine_fuel_electric
+    input_data['engine_fuel_gas'] = engine_fuel_gas
+    input_data['engine_fuel_gasoline'] = engine_fuel_gasoline
+    input_data['engine_fuel_hybrid_diesel'] = engine_fuel_hybrid_diesel
+    input_data['engine_fuel_hybrid_petrol'] = engine_fuel_hybrid_petrol
+    input_data['engine_type_diesel'] = engine_type_diesel
+    input_data['engine_type_electric'] = engine_type_electric
+    input_data['engine_type_gas'] = engine_type_gas
+    input_data['body_type'] = body_type
+    input_data['drivetrain'] = drivetrain
+
+
     predicted_price = predict_price(input_data)
     st.success(f"Predicted Price: ${predicted_price:,.2f}")
 
