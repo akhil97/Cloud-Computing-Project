@@ -61,22 +61,23 @@ feature_order = [
 
 def predict_price(input_data):
     input_df = pd.DataFrame(input_data)
-    for feature in ['color', 'body_type', 'drivetrain']:
+    for feature in ['color', 'body_type', 'drivetrain', ]:
         input_df[feature] = le.fit_transform(input_df[feature].values.reshape(-1, 1))
         input_df[feature] = dict(zip(le.classes_, le.transform(le.classes_))).values()
 
     
     input_df = input_df[feature_order]
 
-    input_data_csv = input_df.to_csv(index=False, header=False)
+    #input_data_csv = input_df.to_csv(index=False, header=False)
+    input_data = input_df.iloc[0].tolist()
 
     # Create a Predictor for the model
     predictor = Predictor(endpoint_name='sagemaker-xgboost-2023-11-29-01-56-43-900',
                           sagemaker_session=sagemaker_session,
                           serializer=CSVSerializer())
 
-    price = predictor.predict(input_data_csv)
-
+    #price = predictor.predict(input_data_csv)
+    price = predictor.predict(input_data)
     return price
 
 if st.button("Predict Price"):
@@ -100,6 +101,7 @@ if st.button("Predict Price"):
     input_data['body_type'] = [body_type]
     input_data['drivetrain'] = [drivetrain]
 
+    input_df = pd.DataFrame(input_data) ## Converting to dataframe
 
     predicted_price = predict_price(input_data)
     st.success(f"Predicted Price: ${predicted_price:,.2f}")
