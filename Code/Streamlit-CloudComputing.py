@@ -29,7 +29,13 @@ transmission_type = st.selectbox("Transmission Type", ['Automatic', 'Manual'])
 body_type = st.selectbox("Body Type", ['Sedan', 'SUV', 'Truck'])
 drivetrain = st.selectbox("Drivetrain", ['AWD', 'FWD', 'RWD'])
 production_year = st.number_input("Production Year", min_value=1900, max_value=2023, step=1)
-manufacturer_name = st.selectbox("Manufacturer Name", ['Toyota', 'Ford', 'Tesla'])
+manufacturer_name = st.selectbox("Manufacturer Name", ['Subaru', 'LADA', 'Dodge', 'Kia' ,'Opel',  'Alfa Romeo', 'Acura',
+ 'Dacia' ,'Lexus' ,'Mitsubishi' ,'Lancia', 'Citroen', 'Mini' ,'Jaguar' ,'Porsche',
+ 'SsangYong', 'Daewoo', 'Geely' ,'fiat' ,'Ford', 'Renault', 'Seat' ,'Rover',
+ 'Volkswagen' ,'Lifan', 'Jeep', 'Cadillac' ,'Audi' , 'Toyota' ,
+ 'Volvo', 'Chevrolet' ,'Great Wall' ,'Buick' ,'Pontiac' ,'Lincoln' ,'Hyundai',
+ 'Nissan' ,'Suzuki' ,'BMW', 'Mazda', 'Land Rover', 'Iveco', 'Skoda' ,'Saab',
+ 'Infiniti' ,'Chery', 'Honda' ,'Mercedes-Benz' ,'Peugeot' ,'Chrysler'])
 
 #Default values
 model_name = 300
