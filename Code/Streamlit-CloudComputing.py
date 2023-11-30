@@ -58,16 +58,6 @@ def predict_price(input_data):
 
     input_data_csv = input_df.to_csv(index=False, header=False)
 
-    bucket = 'myccprojectbucket'
-
-    # Specify the path to the trained model artifacts in S3
-    model_artifacts_path = 's3://myccprojectbucket/output/sagemaker-xgboost-2023-11-29-01-52-54-334/output//model.tar.gz'.format(bucket)
-
-    # Create a SageMaker Model from the deployed model
-    xgb_model = Model(model_data=model_artifacts_path,
-                      role=role,
-                      sagemaker_session=sagemaker_session)
-
     # Create a Predictor for the model
     predictor = Predictor(endpoint_name='sagemaker-xgboost-2023-11-29-01-56-43-900',
                           sagemaker_session=sagemaker_session,
