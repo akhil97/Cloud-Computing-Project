@@ -43,17 +43,20 @@ odometer_value = st.number_input("Odometer Value", min_value=0)
 engine_type = st.selectbox("Engine Type", ['Gas', 'Diesel', 'Electric'])
 engine_fuel_type = st.selectbox("Engine Fuel Type", ['Diesel', 'Electric', 'Gas', 'Gasoline', 'Hybrid-Diesel', 'Hybrid-Petrol'])
 color = st.selectbox("Color", ['silver', 'blue', 'red', 'black', 'grey', 'brown', 'white', 'green', 'violet', 'orange', 'yellow', 'other'])
+model_name = st.text_input("Model Type", "Charger")
 transmission_type = st.selectbox("Transmission Type", ['Automatic', 'Manual'])
 body_type = st.selectbox("Body Type", ['Sedan', 'SUV', 'Truck'])
 drivetrain = st.selectbox("Drivetrain", ['AWD', 'FWD', 'RWD'])
 year_produced = st.number_input("Production Year", min_value=1900, max_value=2023, step=1)
-manufacturer_name = st.selectbox("Manufacturer Name", ['Toyota', 'Ford', 'Tesla'])
+manufacturer_name = st.selectbox("Manufacturer Name", ['Subaru', 'LADA', 'Dodge', 'Kia' ,'Opel',  'Alfa Romeo', 'Acura',
+                                                     'Dacia' ,'Lexus' ,'Mitsubishi' ,'Lancia', 'Citroen', 'Mini' ,'Jaguar' ,'Porsche',
+                                                     'SsangYong', 'Daewoo', 'Geely' ,'fiat' ,'Ford', 'Renault', 'Seat' ,'Rover',
+                                                     'Volkswagen' ,'Lifan', 'Jeep', 'Cadillac' ,'Audi' , 'Toyota' ,
+                                                     'Volvo', 'Chevrolet' ,'Great Wall' ,'Buick' ,'Pontiac' ,'Lincoln' ,'Hyundai',
+                                                     'Nissan' ,'Suzuki' ,'BMW', 'Mazda', 'Land Rover', 'Iveco', 'Skoda' ,'Saab',
+                                                     'Infiniti' ,'Chery', 'Honda' ,'Mercedes-Benz' ,'Peugeot' ,'Chrysler'])
 
 #Default values
-model_name = 300
-color = 2
-manufacturer_name = 5
-
 transmission_automatic = 1 if transmission_type == 'Automatic' else 0
 transmission_mechanical = 0 if transmission_type == 'Manual' else 0
 engine_type_diesel = 1 if engine_type == 'Diesel' else 0
@@ -74,7 +77,7 @@ feature_order = [
     engine_type_electric, engine_type_gasoline
 ]
 
-features = [31,863,1,-0.138639,-0.240990,1,0,1,0,0,0,0,0,1,0,0]
+#features = [31,863,1,-0.138639,-0.240990,1,0,1,0,0,0,0,0,1,0,0]
 # fv = np.array(features).reshape((1,-1))
 # fv = xgb.DMatrix(fv)
 # #features_df = pd.DataFrame([features])
