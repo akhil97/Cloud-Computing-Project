@@ -1,15 +1,16 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+import sagemaker
 from sklearn.preprocessing import LabelEncoder
-from sagemaker import image_uris, session
 from sagemaker.model import Model
-from sagemaker.pipeline import PipelineModel
+from sagemaker.serializers import CSVSerializer
 import boto3
 
 # Set the region
 region_name = 'us-east-1'
 boto3.setup_default_session(region_name=region_name)
+sagemaker_session = sagemaker.Session()
+role = get_execution_role()
 
 st.set_page_config(page_title="Team 3 Cloud Computing Project", page_icon=":tada:", layout="wide")
 
@@ -53,15 +54,20 @@ def predict_price(input_data):
     input_df['drivetrain'] = le.fit_transform(input_df['color'].values.reshape(-1, 1))
     input_df['drivetrain'] = dict(zip(le.classes_, le.transform(le.classes_))).values()
 
-    input_array = np.array(input_df)
+    input_data_csv = input_df.to_csv(index=False, header=False)
 
-    xgb_image = image_uris.retrieve("xgboost", session.Session().boto_region_name, repo_version="latest")
-    xgb_model = Model(model_data="s3://myccprojectbucket/output/sagemaker-xgboost-2023-11-29-01-52-54-334/output//model.tar.gz", image_uri=xgb_image)
+    # Create a Model object
+    xgb_model = Model(model_data=f's3://myccprojectbucket/output/sagemaker-xgboost-2023-11-29-01-52-54-334/output/model.tar.gz',
+                      role=role,
+                      sagemaker_session=sagemaker_session,
+                      image_uri=sagemaker.image_uris.retrieve("xgboost", sagemaker_session.boto_region_name,
+                                                              version="1.3-1"))
 
-    sagemaker_model = "sagemaker-xgboost-2023-11-29-01-56-43-900"
+    # Deploy the model to an endpoint
+    predictor = xgb_model.deploy(instance_type='ml.m4.xlarge', endpoint_name='sagemaker-xgboost-2023-11-29-01-56-43-900')
 
-    sm_model = PipelineModel(name=sagemaker_model, role=data_scientist, models=[xgb_model])
-    price = sm_model.predict(input_array).decode('utf-8')
+    price = predictor.predict(input_data_csv, serializer=CSVSerializer())
+
     return price
 
 if st.button("Predict Price"):
