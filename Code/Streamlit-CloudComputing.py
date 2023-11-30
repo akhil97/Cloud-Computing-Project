@@ -63,7 +63,7 @@ def predict_price(input_data):
                           sagemaker_session=sagemaker_session,
                           serializer=CSVSerializer())
 
-    price = predictor.predict(input_data_csv, serializer=CSVSerializer())
+    price = predictor.predict(input_data_csv)
 
     return price
 
