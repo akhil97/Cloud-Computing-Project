@@ -20,32 +20,24 @@ st.subheader("This is project to predict selling price of used cars")
 
 le = LabelEncoder()
 
-# Inputs from user
+#Inputs from user
 odometer_value = st.number_input("Odometer Value", min_value=0)
 engine_type = st.selectbox("Engine Type", ['Gas', 'Diesel', 'Electric'])
-engine_fuel_type = st.selectbox("Engine Fuel Type",
-                                ['Diesel', 'Electric', 'Gas', 'Gasoline', 'Hybrid-Diesel', 'Hybrid-Petrol'])
-color = st.selectbox("Color",
-                     ['silver', 'blue', 'red', 'black', 'grey', 'brown', 'white', 'green', 'violet', 'orange', 'yellow',
-                      'other'])
+engine_fuel_type = st.selectbox("Engine Fuel Type", ['Diesel', 'Electric', 'Gas', 'Gasoline', 'Hybrid-Diesel', 'Hybrid-Petrol'])
+color = st.selectbox("Color", ['silver', 'blue', 'red', 'black', 'grey', 'brown', 'white', 'green', 'violet', 'orange', 'yellow', 'other'])
 transmission_type = st.selectbox("Transmission Type", ['Automatic', 'Manual'])
 body_type = st.selectbox("Body Type", ['Sedan', 'SUV', 'Truck'])
 drivetrain = st.selectbox("Drivetrain", ['AWD', 'FWD', 'RWD'])
 production_year = st.number_input("Production Year", min_value=1900, max_value=2023, step=1)
-manufacturer_name = st.selectbox("Manufacturer Name", ['Subaru', 'LADA', 'Dodge', 'Kia', 'Opel', 'Alfa Romeo', 'Acura',
-                                                       'Dacia', 'Lexus', 'Mitsubishi', 'Lancia', 'Citroen', 'Mini',
-                                                       'Jaguar', 'Porsche',
-                                                       'SsangYong', 'Daewoo', 'Geely', 'fiat', 'Ford', 'Renault',
-                                                       'Seat', 'Rover',
-                                                       'Volkswagen', 'Lifan', 'Jeep', 'Cadillac', 'Audi', 'Toyota',
-                                                       'Volvo', 'Chevrolet', 'Great Wall', 'Buick', 'Pontiac',
-                                                       'Lincoln', 'Hyundai',
-                                                       'Nissan', 'Suzuki', 'BMW', 'Mazda', 'Land Rover', 'Iveco',
-                                                       'Skoda', 'Saab',
-                                                       'Infiniti', 'Chery', 'Honda', 'Mercedes-Benz', 'Peugeot',
-                                                       'Chrysler'])
+manufacturer_name = st.selectbox("Manufacturer Name", ['Subaru', 'LADA', 'Dodge', 'Kia' ,'Opel',  'Alfa Romeo', 'Acura',
+ 'Dacia' ,'Lexus' ,'Mitsubishi' ,'Lancia', 'Citroen', 'Mini' ,'Jaguar' ,'Porsche',
+ 'SsangYong', 'Daewoo', 'Geely' ,'fiat' ,'Ford', 'Renault', 'Seat' ,'Rover',
+ 'Volkswagen' ,'Lifan', 'Jeep', 'Cadillac' ,'Audi' , 'Toyota' ,
+ 'Volvo', 'Chevrolet' ,'Great Wall' ,'Buick' ,'Pontiac' ,'Lincoln' ,'Hyundai',
+ 'Nissan' ,'Suzuki' ,'BMW', 'Mazda', 'Land Rover', 'Iveco', 'Skoda' ,'Saab',
+ 'Infiniti' ,'Chery', 'Honda' ,'Mercedes-Benz' ,'Peugeot' ,'Chrysler'])
 
-# Default values
+#Default values
 model_name = 300
 
 transmission_automatic = 1 if transmission_type == 'Automatic' else 0
@@ -60,6 +52,7 @@ engine_fuel_gasoline = 1 if engine_fuel_type == 'Gasoline' else 0
 engine_fuel_hybrid_diesel = 1 if engine_fuel_type == 'Hybrid-Diesel' else 0
 engine_fuel_hybrid_petrol = 1 if engine_fuel_type == 'Hybrid-Petrol' else 0
 
+
 feature_order = [
     'manufacturer_name', 'model_name', 'color', 'odometer_value', 'year_produced',
     'transmission_automatic', 'transmission_mechanical', 'engine_fuel_diesel',
@@ -69,15 +62,19 @@ feature_order = [
 ]
 
 
+
+
+
 def predict_price(input_data):
     input_df = pd.DataFrame(input_data)
-    for feature in ['color', 'body_type', 'drivetrain', 'manufacturer_name']:
+    for feature in ['color', 'body_type', 'drivetrain', ]:
         input_df[feature] = le.fit_transform(input_df[feature].values.reshape(-1, 1))
         input_df[feature] = dict(zip(le.classes_, le.transform(le.classes_))).values()
 
+    
     input_df = input_df[feature_order]
 
-    # input_data_csv = input_df.to_csv(index=False, header=False)
+    #input_data_csv = input_df.to_csv(index=False, header=False)
     input_data = input_df.iloc[0].tolist()
 
     # Create a Predictor for the model
@@ -85,10 +82,9 @@ def predict_price(input_data):
                           sagemaker_session=sagemaker_session,
                           serializer=CSVSerializer())
 
-    # price = predictor.predict(input_data_csv)
+    #price = predictor.predict(input_data_csv)
     price = predictor.predict(input_data)
     return price
-
 
 if st.button("Predict Price"):
     input_data = {}
@@ -111,7 +107,10 @@ if st.button("Predict Price"):
     input_data['body_type'] = [body_type]
     input_data['drivetrain'] = [drivetrain]
 
-    input_df = pd.DataFrame(input_data)  ## Converting to dataframe
+    input_df = pd.DataFrame(input_data) ## Converting to dataframe
 
     predicted_price = predict_price(input_data)
     st.success(f"Predicted Price: ${predicted_price:,.2f}")
+
+
+
