@@ -3,6 +3,7 @@ import pandas as pd
 import sagemaker
 from sklearn.preprocessing import LabelEncoder
 from sagemaker.model import Model
+from sagemaker.predictor import Predictor
 from sagemaker import get_execution_role
 from sagemaker.serializers import CSVSerializer
 import boto3
@@ -57,15 +58,20 @@ def predict_price(input_data):
 
     input_data_csv = input_df.to_csv(index=False, header=False)
 
-    # Create a Model object
-    xgb_model = Model(model_data=f's3://myccprojectbucket/output/sagemaker-xgboost-2023-11-29-01-52-54-334/output/model.tar.gz',
-                      role=role,
-                      sagemaker_session=sagemaker_session,
-                      image_uri=sagemaker.image_uris.retrieve("xgboost", sagemaker_session.boto_region_name,
-                                                              version="1.3-1"))
+    bucket = 'myccprojectbucket'
 
-    # Deploy the model to an endpoint
-    predictor = xgb_model.deploy(instance_type='ml.m4.xlarge', endpoint_name='sagemaker-xgboost-2023-11-29-01-56-43-900')
+    # Specify the path to the trained model artifacts in S3
+    model_artifacts_path = 's3://myccprojectbucket/output/sagemaker-xgboost-2023-11-29-01-52-54-334/output//model.tar.gz'.format(bucket)
+
+    # Create a SageMaker Model from the deployed model
+    xgb_model = Model(model_data=model_artifacts_path,
+                      role=role,
+                      sagemaker_session=sagemaker_session)
+
+    # Create a Predictor for the model
+    predictor = Predictor(endpoint_name='sagemaker-xgboost-2023-11-29-01-56-43-900',
+                          sagemaker_session=sagemaker_session,
+                          serializer=CSVSerializer())
 
     price = predictor.predict(input_data_csv, serializer=CSVSerializer())
 
