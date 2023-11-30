@@ -61,7 +61,7 @@ feature_order = [
 
 def predict_price(input_data):
     input_df = pd.DataFrame(input_data)
-    for feature in ['color', 'body_type', 'drivetrain', ]:
+    for feature in ['color', 'body_type', 'drivetrain', 'manufacturer_name' ]:
         input_df[feature] = le.fit_transform(input_df[feature].values.reshape(-1, 1))
         input_df[feature] = dict(zip(le.classes_, le.transform(le.classes_))).values()
 
