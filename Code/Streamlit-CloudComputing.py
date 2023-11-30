@@ -33,7 +33,7 @@ manufacturer_name = st.selectbox("Manufacturer Name", ['Toyota', 'Ford', 'Tesla'
 
 #Default values
 model_name = 300
-# color =
+
 transmission_automatic = 1 if transmission_type == 'Automatic' else 0
 transmission_mechanical = 0 if transmission_type == 'Manual' else 0
 engine_type_diesel = 1 if engine_type == 'Diesel' else 0
@@ -47,14 +47,26 @@ engine_fuel_hybrid_diesel = 1 if engine_fuel_type == 'Hybrid-Diesel' else 0
 engine_fuel_hybrid_petrol = 1 if engine_fuel_type == 'Hybrid-Petrol' else 0
 
 
+feature_order = [
+    'manufacturer_name', 'model_name', 'color', 'odometer_value', 'year_produced',
+    'transmission_automatic', 'transmission_mechanical', 'engine_fuel_diesel',
+    'engine_fuel_electric', 'engine_fuel_gas', 'engine_fuel_gasoline',
+    'engine_fuel_hybrid_diesel', 'engine_fuel_hybrid_petrol', 'engine_type_diesel',
+    'engine_type_electric', 'engine_type_gasoline'
+]
+
+
+
+
+
 def predict_price(input_data):
     input_df = pd.DataFrame(input_data)
-    input_df['color'] = le.fit_transform(input_df['color'].values.reshape(-1, 1))
-    input_df['color'] = dict(zip(le.classes_, le.transform(le.classes_))).values()
-    input_df['body_type'] = le.fit_transform(input_df['color'].values.reshape(-1, 1))
-    input_df['body_type'] = dict(zip(le.classes_, le.transform(le.classes_))).values()
-    input_df['drivetrain'] = le.fit_transform(input_df['color'].values.reshape(-1, 1))
-    input_df['drivetrain'] = dict(zip(le.classes_, le.transform(le.classes_))).values()
+    for feature in ['color', 'body_type', 'drivetrain']:
+        input_df[feature] = le.fit_transform(input_df[feature].values.reshape(-1, 1))
+        input_df[feature] = dict(zip(le.classes_, le.transform(le.classes_))).values()
+
+    
+    input_df = input_df[feature_order]
 
     input_data_csv = input_df.to_csv(index=False, header=False)
 
