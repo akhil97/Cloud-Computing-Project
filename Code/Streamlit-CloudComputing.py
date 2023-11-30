@@ -3,6 +3,7 @@ import pandas as pd
 import sagemaker
 from sklearn.preprocessing import LabelEncoder
 from sagemaker.model import Model
+from sagemaker import get_execution_role
 from sagemaker.serializers import CSVSerializer
 import boto3
 
