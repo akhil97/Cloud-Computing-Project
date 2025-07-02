@@ -30,6 +30,10 @@ With a simplified Python scripting paradigm, Streamlit allows us to effortlessly
 The addition of a dedicated "Predict Price" button enhances user interaction, initiating the model's inference process. Upon user input, our ML model processes the features and generates a predicted car price, creating a seamless and interactive experience for users exploring the predictive capabilities of our system. 
 Streamlit's simplicity accelerates the development of this user interface, making it a powerful tool for data scientists to showcase their ML models.
 
+Feature importance plot:-
+![](./Images/feauture_importance_plot.png)
+
+
 
 
 
