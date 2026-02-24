@@ -17,8 +17,8 @@ The link to the source dataset is https://www.kaggle.com/datasets/austinreese/cr
 
 # High Level diagram
 
-This is the high level diagram for the application:- 
-![](./Images/hld.jpg)
+This is the high-level diagram for the application:- 
+![](./Images/_Users_akhilmbharadwaj_Downloads_high_level_diagram.html.png)
 
 # Scope of the project
 We have created a website where you can select various features of a car and it will predict the sales price <br>
