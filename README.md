@@ -20,6 +20,11 @@ The link to the source dataset is https://www.kaggle.com/datasets/austinreese/cr
 This is the high-level diagram for the application:- 
 ![](./Images/_Users_akhilmbharadwaj_Downloads_high_level_diagram.html.png)
 
+# Low Level diagram
+
+This is the low-level diagram for the application:- 
+![](./Images/_Users_akhilmbharadwaj_Downloads_low_level_diagram.html.png)
+
 # Scope of the project
 We have created a website where you can select various features of a car and it will predict the sales price <br>
 The dataset contains car sale price and features and  is taken from Kaggle, it has 38,522 observations with 30 variables. <br>
